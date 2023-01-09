@@ -6,6 +6,18 @@
     </x-slot>
 
     <div class="py-10">
+        <div class="row">
+            <div class="col-12">
+                @if (session()->has('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+
+                @if (session()->has('danger'))
+                    <div class="alert alert-danger">{{ session('danger') }}</div>
+                @endif
+            </div>
+        </div>
+
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-5">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="row p-4">
@@ -40,12 +52,21 @@
                                                     <td>{{ $meet->pet_name }}</td>
                                                     <td>{{ $meet->meet_date->format('d-m-Y') }}
                                                         {{ $meet->meet_time->format('h:i A') }}</td>
-                                                    <td width="120">
-                                                        <a href="{{ route('meet.edit', [$meet->id]) }}"
-                                                            class='btn btn-success'>
-                                                            editar
-                                                        </a>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a href="{{ route('meet.edit', [$meet->id]) }}"
+                                                                class='btn btn-success'>
+                                                                editar
+                                                            </a>
 
+                                                            <form method="POST"
+                                                                action="{{ route('meet.destroy', [$meet->id]) }}">
+                                                                @method('DELETE')
+                                                                @csrf
+                                                                <button class="btn btn-danger"
+                                                                    type="submit" onclick="return confirm('¿Desea cancelar la cita?')">cancelar</button>
+                                                            </form>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             @endforeach

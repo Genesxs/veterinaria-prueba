@@ -10,14 +10,6 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
 
                 <div class="container py-4">
-                    @if (session()->has('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-
-                    @if (session()->has('danger'))
-                        <div class="alert alert-danger">{{ session('danger') }}</div>
-                    @endif
-
                     <div class="card">
                         <div class="card-header">
                             <div class="col-sm-12 d-flex flex-row-reverse">

@@ -48,7 +48,7 @@ class MeetingController extends Controller
             return redirect()->route('dashboard')->with('success', 'La cita se ha creado exitosamente.');
         }
 
-        if($date != null) {
+        if ($date != null) {
             return redirect()->route('dashboard')->with('danger', 'Ya existe una cita con esa fecha y hora.');
         } else {
             Meet::create($request->all());
@@ -95,7 +95,7 @@ class MeetingController extends Controller
         $meet->meet_time = $request['meet_time'];
         $meet->save();
 
-        return redirect(route('dashboard'));
+        return redirect(route('dashboard'))->with('success', 'La cita de ha actualizado exitosamente');
     }
 
     /**
@@ -106,6 +106,10 @@ class MeetingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $meet = Meet::find($id);
+
+        $meet->delete();
+
+        return redirect(route('dashboard'))->with('success', 'La cita de ha eliminado exitosamente');
     }
 }
