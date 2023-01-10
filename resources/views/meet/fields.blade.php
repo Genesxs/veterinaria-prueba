@@ -74,14 +74,14 @@
 
         if(createTime == undefined){
             console.log('esta creando cita')
-        }else if (currentDate != dateMeet) {
+        }else if (dateMeet > currentDate) {
             document.getElementById('document_owner').readOnly = true;
             document.getElementById('name').readOnly = true;
             document.getElementById('last_name').readOnly = true;
             document.getElementById('pet_name').readOnly = true;
 
-            console.log('editando cita con diferente fecha')
-        } else if (currentDate == dateMeet && diff > 2) {
+            console.log('editando cita con fecha mayor a la actual')
+        } else if (dateMeet == currentDate   && diff > 2) {
             document.getElementById('document_owner').readOnly = true;
             document.getElementById('name').readOnly = true;
             document.getElementById('last_name').readOnly = true;
@@ -89,6 +89,7 @@
 
             console.log('puede editar')
         } else {
+
             document.getElementById('document_owner').readOnly = true;
             document.getElementById('name').readOnly = true;
             document.getElementById('last_name').readOnly = true;
