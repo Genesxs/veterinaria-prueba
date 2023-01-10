@@ -9,11 +9,17 @@
         <div class="row">
             <div class="col-12">
                 @if (session()->has('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">{{ session('success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </button>
+                    </div>
                 @endif
 
                 @if (session()->has('danger'))
-                    <div class="alert alert-danger">{{ session('danger') }}</div>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">{{ session('danger') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 @endif
             </div>
         </div>
@@ -63,8 +69,8 @@
                                                                 action="{{ route('meet.destroy', [$meet->id]) }}">
                                                                 @method('DELETE')
                                                                 @csrf
-                                                                <button class="btn btn-danger"
-                                                                    type="submit" onclick="return confirm('¿Desea cancelar la cita?')">cancelar</button>
+                                                                <button class="btn btn-danger" type="submit"
+                                                                    onclick="return confirm('¿Desea cancelar la cita?')">cancelar</button>
                                                             </form>
                                                         </div>
                                                     </td>
