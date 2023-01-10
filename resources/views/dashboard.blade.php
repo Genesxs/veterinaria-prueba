@@ -41,7 +41,7 @@
                                     <table class="table" id="meets-table">
                                         <thead>
                                             <tr class="text-center">
-                                                <th>Numero documento dueño</th>
+                                                <th>Número documento dueño</th>
                                                 <th>Nombres</th>
                                                 <th>Apellidos</th>
                                                 <th>Nombre mascota</th>
