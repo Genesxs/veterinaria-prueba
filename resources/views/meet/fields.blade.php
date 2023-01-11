@@ -56,8 +56,6 @@
 <script type="text/javascript">
     let meets = {!! json_encode($meet) !!}
 
-    console.log(meets);
-
     function inhabilitar() {
         var currentDate = moment().format('YYYY-MM-DD');
         var currentTime = moment().format('H:mm:ss');
@@ -68,28 +66,29 @@
         var dateMeet = moment(meets.meet_date).format('YYYY-MM-DD');
         var timeMeet = moment(meets.meet_time).format('H:mm:ss');
 
+        //diferencia de horas
         var diff = parseInt(timeMeet) - parseInt(currentTime);
 
         console.log(diff);
 
+        //si la variable createTime viene vacia los input se habilitan
         if(createTime == undefined){
-            console.log('esta creando cita')
+            //
         }else if (dateMeet > currentDate) {
             document.getElementById('document_owner').readOnly = true;
             document.getElementById('name').readOnly = true;
             document.getElementById('last_name').readOnly = true;
             document.getElementById('pet_name').readOnly = true;
 
-            console.log('editando cita con fecha mayor a la actual')
-        } else if (dateMeet == currentDate   && diff > 2) {
+        //si la fecha de la cita es igual a la actual y la diferencia de horas es mayor a 
+        //2, se puede editar los input fecha y hora
+        } else if (dateMeet == currentDate && diff > 2) {
             document.getElementById('document_owner').readOnly = true;
             document.getElementById('name').readOnly = true;
             document.getElementById('last_name').readOnly = true;
             document.getElementById('pet_name').readOnly = true;
 
-            console.log('puede editar')
         } else {
-
             document.getElementById('document_owner').readOnly = true;
             document.getElementById('name').readOnly = true;
             document.getElementById('last_name').readOnly = true;
@@ -98,7 +97,6 @@
             document.getElementById('meet_date').setAttribute('min', currentDate);
             document.getElementById('meet_time').readOnly = true;
 
-            console.log('no puede editar')
         }
 
     }

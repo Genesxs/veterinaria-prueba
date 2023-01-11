@@ -64,9 +64,8 @@
                                                                 class='btn rounded-end me-2 text-primary'>
                                                                 Editar
                                                             </a>
-                                                            {{-- <?php dd($date->format('Y-m-d') >= $meet->meet_date->format('Y-m-d')) ?> --}}
 
-                                                            {{-- La date no puede ser mayor o igual a meet_date y la hora actual no puede ser mayor o igual a meet_time --}}
+                                                            {{-- La fecha actual no puede ser mayor o igual a meet_date y la hora actual no puede ser mayor o igual a meet_time --}}
                                                             @if ($date->format('Y-m-d') >= $meet->meet_date->format('Y-m-d') && strtotime($date->format('h:m:s')) >= strtotime($meet->meet_time->format('h:m:s')))
                                                                 <button
                                                                     class="btn text-black-50 shadow-none" data-toggle="tooltip" data-placement="top" title="No puede ser cancelada la cita">Cancelar</button>
@@ -110,8 +109,6 @@
     <script>
         let events = {!! json_encode($events) !!}
 
-        console.log(events);
-
         $('#calendar').fullCalendar({
             header: {
                 left: "prev,next,today",
@@ -119,11 +116,13 @@
                 right: "month"
             },
             events: events,
+            //Muestra modal al dar clic al evento
             eventClick: function(calEvent, jsEvent, view) {
                 $('#modalEvent .modal-title').html(calEvent.title);
                 $('#modalEvent #horaEvento').html('Hora cita: ' + calEvent.descripcion)
                 $('#modalEvent').modal("show");
             },
+            //Muestra agenda del dia con los eventos y hora del evento
             dayClick: function(date, view) {
                 $('#calendar').fullCalendar('changeView', 'agendaDay');
                 $('#calendar').fullCalendar('gotoDate', date);
@@ -148,9 +147,9 @@
             columnFormat: "dddd",
             titleFormat: "DD MMMM YYYY",
             titleRangeSeparator: "/",
-            timeFormat: "hh:mm A", //Da el formato para los eventos
+            timeFormat: "hh:mm A", //Da el formato de hora para los eventos
             slotLabelFormat: [
-                'hh:mm A' // Da el formato ya sea fecha u hora en la vista agenda
+                'hh:mm A' // Da el formato ya sea fecha u hora en la vista agenda del dia seleccionado
             ]
         });
     </script>
