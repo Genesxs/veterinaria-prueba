@@ -453,7 +453,7 @@
     @if (Route::has('login'))
         <div class="menu">
             @auth
-                <a href="{{ url('/dashboard') }}" class="btn vuttons">Inicio</a>
+                <a href="{{ url('/dashboard') }}" class="btn buttons">Inicio</a>
             @else
                 <div>
                     <a href="{{ route('login') }}" class="btn buttons">Ingresar</a>

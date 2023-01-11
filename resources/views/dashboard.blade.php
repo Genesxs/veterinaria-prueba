@@ -11,7 +11,8 @@
                 @if (session()->has('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">{{ session('success') }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                         </button>
                     </div>
                 @endif
@@ -29,23 +30,22 @@
                 <div class="row p-4">
                     <div class="col">
                         <div class="card">
-                            <div class="card-header">
-                                <div class="col-sm-12 d-flex flex-row-reverse">
-                                    <a class="btn btn-primary " href="{{ route('meet.create') }}">
-                                        Agregar cita
-                                    </a>
-                                </div>
+                            <div class="card-header px-2 text-end">
+                                <a class="btn btn-success" style="width:160px;"href="{{ route('meet.create') }}">
+                                    Agregar cita &nbsp;
+                                    <i class="bi bi-calendar-plus-fill"></i>
+                                </a>
                             </div>
                             <div class="card-content">
-                                <div class="table-responsive">
+                                <div class="table-responsive table-sm">
                                     <table class="table" id="meets-table">
                                         <thead>
                                             <tr class="text-center">
-                                                <th>Número documento dueño</th>
+                                                <th># Número documento dueño</th>
                                                 <th>Nombres</th>
                                                 <th>Apellidos</th>
                                                 <th>Nombre mascota</th>
-                                                <th>Fecha de cita y hora</th>
+                                                <th>Fecha y hora de la cita</th>
                                                 <th colspan="3">Acciones</th>
                                             </tr>
                                         </thead>
@@ -56,22 +56,29 @@
                                                     <td>{{ $meet->name }}</td>
                                                     <td>{{ $meet->last_name }}</td>
                                                     <td>{{ $meet->pet_name }}</td>
-                                                    <td>{{ $meet->meet_date->format('d-m-Y') }}
+                                                    <td>{{ $meet->meet_date->format('d/m/Y') }}
                                                         {{ $meet->meet_time->format('h:i A') }}</td>
-                                                    <td>
+                                                    <td class="text-end">
                                                         <div class="btn-group">
                                                             <a href="{{ route('meet.edit', [$meet->id]) }}"
-                                                                class='btn btn-success'>
-                                                                editar
+                                                                class='btn rounded-end me-2 text-primary'>
+                                                                Editar
                                                             </a>
+                                                            {{-- <?php dd($date->format('Y-m-d') >= $meet->meet_date->format('Y-m-d')) ?> --}}
 
-                                                            <form method="POST"
-                                                                action="{{ route('meet.destroy', [$meet->id]) }}">
-                                                                @method('DELETE')
-                                                                @csrf
-                                                                <button class="btn btn-danger" type="submit"
-                                                                    onclick="return confirm('¿Desea cancelar la cita?')">cancelar</button>
-                                                            </form>
+                                                            {{-- La date no puede ser mayor o igual a meet_date y la hora actual no puede ser mayor o igual a meet_time --}}
+                                                            @if ($date->format('Y-m-d') >= $meet->meet_date->format('Y-m-d') && strtotime($date->format('h:m:s')) >= strtotime($meet->meet_time->format('h:m:s')))
+                                                                <button
+                                                                    class="btn text-black-50 shadow-none" data-toggle="tooltip" data-placement="top" title="No puede ser cancelada la cita">Cancelar</button>
+                                                            @else
+                                                                <form method="POST"
+                                                                    action="{{ route('meet.destroy', [$meet->id]) }}">
+                                                                    @method('DELETE')
+                                                                    @csrf
+                                                                    <button class="btn text-danger" type="submit"
+                                                                        onclick="return confirm('¿Desea cancelar la cita?')">Cancelar</button>
+                                                                </form>
+                                                            @endif
                                                         </div>
                                                     </td>
                                                 </tr>

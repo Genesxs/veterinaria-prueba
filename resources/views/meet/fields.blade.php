@@ -101,8 +101,6 @@
             console.log('no puede editar')
         }
 
-        
-
     }
 
     $(document).ready(function() {

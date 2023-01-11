@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Meet;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -18,6 +19,8 @@ class Controller extends BaseController
         $meets = Meet::paginate(5);
         $events = Meet::select(DB::raw('concat_ws(" - ", name, pet_name) AS title, concat_ws(" ",meet_date, meet_time) AS start , TIME_FORMAT(meet_time, "%h:%i %p") AS descripcion'))->get();
 
-        return view('dashboard',compact('meets', 'events'));
+        $date = Carbon::now();
+
+        return view('dashboard',compact('meets', 'events', 'date'));
     }
 }

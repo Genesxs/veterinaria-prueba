@@ -24,7 +24,7 @@ class CreateMeetRequest extends FormRequest
     public function rules()
     {
         return [
-            'document_owner' => 'required|int|unique:meets',
+            'document_owner' => 'required|numeric|unique:meets|max:12',
             'name' => 'required',
             'last_name' => 'required',
             'pet_name' => 'required',
@@ -43,6 +43,8 @@ class CreateMeetRequest extends FormRequest
             'meet_date.required' => 'El campo fecha de cita es requerido.',
             'meet_time.required' => 'El campo fecha de cita es requerido.',
             'document_owner.unique' => 'El número de documento del dueño ya esta inscrito.',
+            'document_owner.max' => 'El documento no debe tener mas de 12 digitos.',
+            'document_owner.numeric' => 'El documento debe ser un número.'
         ];
     }
 }
