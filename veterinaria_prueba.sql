@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-01-2023 a las 00:56:17
+-- Tiempo de generación: 12-01-2023 a las 15:08:35
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 7.4.27
 
@@ -45,28 +45,29 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `meets` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `document_owner` int(12) NOT NULL,
+  `document_owner` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pet_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `meet_date` date NOT NULL,
   `meet_time` time NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `type_document` enum('1','2','3') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `meets`
 --
 
-INSERT INTO `meets` (`id`, `document_owner`, `name`, `last_name`, `pet_name`, `meet_date`, `meet_time`, `created_at`, `updated_at`) VALUES
-(1, 12355667, 'Heidy Emanuela', 'Torres Cardona', 'Yafe', '2023-01-08', '18:00:00', '2023-01-08 00:36:53', '2023-01-08 21:43:51'),
-(2, 123244, 'Wendy', 'Torres', 'Gea', '2023-01-10', '14:00:00', '2023-01-08 00:44:29', '2023-01-08 21:45:36'),
-(3, 6576575, 'Daniel', 'Torres', 'Ris', '2023-01-10', '17:00:00', '2023-01-08 03:52:54', '2023-01-08 03:52:54'),
-(4, 1232423, 'Omaira', 'Cardona', 'Canela', '2023-01-12', '07:40:00', '2023-01-08 04:39:56', '2023-01-08 04:39:56'),
-(5, 2387824, 'Felipe', 'Torres', 'Tifa', '2023-01-13', '09:47:00', '2023-01-08 04:47:58', '2023-01-08 04:47:58'),
-(6, 8349573, 'Andres', 'Torres', 'Chuchu', '2023-01-26', '20:00:00', '2023-01-08 04:53:26', '2023-01-08 04:53:26'),
-(7, 879789, 'Yohana', 'Gomez', 'Pamelo', '2023-01-08', '19:30:00', '2023-01-08 22:36:47', '2023-01-08 22:56:29');
+INSERT INTO `meets` (`id`, `document_owner`, `name`, `last_name`, `pet_name`, `meet_date`, `meet_time`, `created_at`, `updated_at`, `type_document`) VALUES
+(1, '12355667', 'Heidy Emanuela', 'Torres Cardona', 'Yafe', '2023-01-08', '18:00:00', '2023-01-08 00:36:53', '2023-01-08 21:43:51', '1'),
+(2, '123244', 'Wendy', 'Torres', 'Gea', '2023-01-10', '14:00:00', '2023-01-08 00:44:29', '2023-01-08 21:45:36', '1'),
+(3, '6576575', 'Daniel', 'Torres', 'Ris', '2023-01-10', '17:00:00', '2023-01-08 03:52:54', '2023-01-08 03:52:54', '1'),
+(4, '1232423', 'Omaira', 'Cardona', 'Canela', '2023-01-12', '07:40:00', '2023-01-08 04:39:56', '2023-01-08 04:39:56', '1'),
+(5, '2387824', 'Felipe', 'Torres', 'Tifa', '2023-01-13', '09:47:00', '2023-01-08 04:47:58', '2023-01-08 04:47:58', '1'),
+(6, '8349573', 'Andres', 'Torres', 'Chuchu', '2023-01-26', '20:00:00', '2023-01-08 04:53:26', '2023-01-08 04:53:26', '1'),
+(7, '879789', 'Yohana', 'Gomez', 'Pamelo', '2023-01-08', '19:30:00', '2023-01-08 22:36:47', '2023-01-08 22:56:29', '1');
 
 -- --------------------------------------------------------
 
@@ -91,7 +92,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2019_08_19_000000_create_failed_jobs_table', 1),
 (5, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (6, '2023_01_07_153109_create_sessions_table', 1),
-(7, '2023_01_07_153618_create_meets_table', 2);
+(7, '2023_01_07_153618_create_meets_table', 2),
+(8, '2023_01_11_174600_update_type_document_in_meets_table', 3);
 
 -- --------------------------------------------------------
 
@@ -143,7 +145,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('dUCSlcI2ponqN00GLeT0kU0TFPPgXvVa2JlNzvEP', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.76', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiand1T044OTJRZHVGWXR1c1NPYUptcUI0T0gzdXF5WURjNTJXcllTaCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJGlhVGROalpWU0ZYOWRPUzVhNFlDUXVOSWg1c2s1TzBwU1p5eGtzWll2RjU1S0dMYnZ6eEN5Ijt9', 1673221232);
+('JOxpXUpq51Lhz4fMXABpBOXni2dHhAzbquTIH8KD', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.76', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiV2ZHMzVXc0JPb3k0SUxIWGJ3R2dSWFNDYTBrWFZOdHJTaWtwZ2VBMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJHM5ME9VbjVSRUwzTEQ0RHZyUVBORS43WUNreUY5Lml2V0lqVVBlSHZCZVNzYlJWejdlUlE2Ijt9', 1673532235);
 
 -- --------------------------------------------------------
 
@@ -172,7 +174,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
-(1, 'Heidy', 'genesxstc@gmail.com', NULL, '$2y$10$iaTdNjZVSFX9dOS5a4YCQuNIh5sk5O0pSZyxksZYvF55KGLbvzxCy', NULL, NULL, NULL, NULL, NULL, NULL, '2023-01-07 20:34:59', '2023-01-07 20:34:59');
+(1, 'Heidy', 'genesxstc@gmail.com', NULL, '$2y$10$s90OUn5REL3LD4DvrQPNE.7YCkyF9.ivWIjUPeHvBeSsbRVz7eRQ6', NULL, NULL, NULL, 'QAg3lsfGWn0wTr0oogSwnemuLKFS5XW35al32wnMncsxx5R0wE2IeoKfvdz9', NULL, NULL, '2023-01-07 20:34:59', '2023-01-11 22:24:49');
 
 --
 -- Índices para tablas volcadas
@@ -240,13 +242,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT de la tabla `meets`
 --
 ALTER TABLE `meets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`

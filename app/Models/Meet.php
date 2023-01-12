@@ -11,13 +11,18 @@ class Meet extends Model
 
     public $table = 'meets';
 
+    const ciudadania = 1;
+    const extranjeria = 2;
+    const pasaporte = 3;
+
     public $fillable = [
         'document_owner',
         'name',
         'last_name',
         'pet_name', 
         'meet_date',
-        'meet_time'
+        'meet_time',
+        'type_document'
     ];
 
     /**
@@ -27,7 +32,7 @@ class Meet extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'document_owner' => 'int',
+        'document_owner' => 'string',
         'name' => 'string',
         'last_name' => 'string',
         'pet_name' => 'string',
@@ -46,6 +51,7 @@ class Meet extends Model
         'last_name' => 'required',
         'pet_name' => 'required',
         'meet_date' => 'required',
-        'meet_time' => 'required'
+        'meet_time' => 'required',
+        'type_document' => 'required'
     ];
 }

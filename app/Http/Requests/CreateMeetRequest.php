@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateMeetRequest extends FormRequest
 {
@@ -24,7 +25,8 @@ class CreateMeetRequest extends FormRequest
     public function rules()
     {
         return [
-            'document_owner' => 'required|numeric|unique:meets|max:12',
+            'document_owner' => 'required|unique:meets|between:5,12',
+            'type_document' => 'required|not_in:0',
             'name' => 'required',
             'last_name' => 'required',
             'pet_name' => 'required',
@@ -43,8 +45,8 @@ class CreateMeetRequest extends FormRequest
             'meet_date.required' => 'El campo fecha de cita es requerido.',
             'meet_time.required' => 'El campo fecha de cita es requerido.',
             'document_owner.unique' => 'El número de documento del dueño ya esta inscrito.',
-            'document_owner.max' => 'El documento no debe tener mas de 12 digitos.',
-            'document_owner.numeric' => 'El documento debe ser un número.'
+            'type_document.required' => 'Escoge un tipo de documento.',
+            'document_owner.between' => 'El número de documento no puede ser menos de 5 digitos y mas de 12.'
         ];
     }
 }

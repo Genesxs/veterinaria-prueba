@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="card-content p-4">
-                            <form method="POST" action="{{ route('meet.store') }}">
+                            <form method="POST" action="{{ route('meet.store') }}" id="validateForm">
                                 @csrf
 
                                 @include('meet.fields')

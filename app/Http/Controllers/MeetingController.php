@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateMeetRequest;
 use App\Models\Meet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class MeetingController extends Controller
 {
@@ -44,8 +45,8 @@ class MeetingController extends Controller
             ->where('meet_time', $request['meet_time'])->first();
 
         if (count($data) == 0) {
-            Meet::create($request->all());
-            return redirect()->route('dashboard')->with('success', 'La cita se ha creado exitosamente.');
+                Meet::create($request->all());
+                return redirect()->route('dashboard')->with('success', 'La cita se ha creado exitosamente.');
         }
 
         if ($date != null) {

@@ -13,9 +13,9 @@ class CreateMeetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('meets', function (Blueprint $table) {
             $table->id();
-            $table->integer('document_owner');
+            $table->string('document_owner', 12);
             $table->string('name');
             $table->string('last_name');
             $table->string('pet_name');

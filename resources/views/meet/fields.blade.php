@@ -1,5 +1,29 @@
 <div class="row">
-    <div class="col-4">
+    <div class="col-3">
+        <label for="type_document" class="control-label">Tipo de documento:</label>
+        <select class="form-select" name="type_document" id="type_document" onchange="typeDocumentGet()">
+            <option selected disabled>Selecciona tipo de documento...</option>
+            @if (!is_null($meet->type_document))
+                @if ($meet->type_document == 1)
+                    <option selected value="{{ old('type_document', $meet->type_document) }}">Cédula ciudadanía
+                    </option>
+                @elseif($meet->type_document == 2)
+                    <option selected value="{{ old('type_document', $meet->type_document) }}">Cédula extranjería
+                    </option>
+                @elseif($meet->type_document == 3)
+                    <option selected value="{{ old('type_document', $meet->type_document) }}">Pasaporte
+                    </option>
+                @endif
+            @endif
+            <option value="1">Cédula ciudadanía</option>
+            <option value="2">Cédula extranjería</option>
+            <option value="3">Pasaporte</option>
+        </select>
+        @if ($errors->has('type_document'))
+            <small class="text-danger">{{ $errors->first('type_document') }}</small>
+        @endif
+    </div>
+    <div class="col-3">
         <label for="document_owner" class="control-label">Número de documento del
             dueño:</label>
         <input class="form-control" name="document_owner" {{ $errors->has('document_owner') ? 'is-invald' : '' }}
@@ -8,7 +32,7 @@
             <small class="text-danger">{{ $errors->first('document_owner') }}</small>
         @endif
     </div>
-    <div class="col-4">
+    <div class="col-3">
         <label for="name" class="control-label">Nombres:</label>
         <input class="form-control" name="name" {{ $errors->has('name') ? 'is-invald' : '' }}
             value="{{ old('name', $meet->name) }}" id="name">
@@ -16,7 +40,7 @@
             <small class="text-danger">{{ $errors->first('name') }}</small>
         @endif
     </div>
-    <div class="col-4">
+    <div class="col-3">
         <label for="last_name" class="control-label">Apellidos:</label>
         <input class="form-control" name="last_name" {{ $errors->has('last_name') ? 'is-invald' : '' }}
             value="{{ old('last_name', $meet->last_name) }}" id="last_name">
@@ -56,12 +80,12 @@
 <script type="text/javascript">
     let meets = {!! json_encode($meet) !!}
 
+
+
     function inhabilitar() {
         var currentDate = moment().format('YYYY-MM-DD');
         var currentTime = moment().format('H:mm:ss');
         var createTime = meets.meet_time;
-
-        console.log(createTime);
 
         var dateMeet = moment(meets.meet_date).format('YYYY-MM-DD');
         var timeMeet = moment(meets.meet_time).format('H:mm:ss');
@@ -72,24 +96,27 @@
         console.log(diff);
 
         //si la variable createTime viene vacia los input se habilitan
-        if(createTime == undefined){
+        if (createTime == undefined) {
             //
-        }else if (dateMeet > currentDate) {
+        } else if (dateMeet > currentDate) {
             document.getElementById('document_owner').readOnly = true;
+            document.getElementById('type_document').disabled = true;
             document.getElementById('name').readOnly = true;
             document.getElementById('last_name').readOnly = true;
             document.getElementById('pet_name').readOnly = true;
 
-        //si la fecha de la cita es igual a la actual y la diferencia de horas es mayor a 
-        //2, se puede editar los input fecha y hora
+            //si la fecha de la cita es igual a la actual y la diferencia de horas es mayor a 
+            //2, se puede editar los input fecha y hora
         } else if (dateMeet == currentDate && diff > 2) {
             document.getElementById('document_owner').readOnly = true;
+            document.getElementById('type_document').disabled = true;
             document.getElementById('name').readOnly = true;
             document.getElementById('last_name').readOnly = true;
             document.getElementById('pet_name').readOnly = true;
 
         } else {
             document.getElementById('document_owner').readOnly = true;
+            document.getElementById('type_document').disabled = true;
             document.getElementById('name').readOnly = true;
             document.getElementById('last_name').readOnly = true;
             document.getElementById('pet_name').readOnly = true;
@@ -101,7 +128,58 @@
 
     }
 
+    function typeDocumentGet() {
+
+        var documentOwner = $('#document_owner').val();
+        var typeDocument = $('#type_document').val();
+
+        //Comprueba el tipo de documento seleccionado y cambia el tipo de input.
+        if (typeDocument == 1) {
+            document.getElementById("document_owner").type = "number";
+        } else if (typeDocument == 2) {
+            document.getElementById("document_owner").type = "number";
+        } else if (typeDocument == 3) {
+            document.getElementById("document_owner").type = "text";
+        }
+    }
+
+    function validate() {
+        $('#validateForm').on('submit', function(event) {
+            //valido si el pasaporte contiene una letra
+            var documentOwner = $('#document_owner').val();
+            var typeDocument = $('#type_document').val();
+
+            if (typeDocument == 3) {
+                if ((/[A-Z | a-z]/.test(documentOwner.charAt(0)))) {
+                    return true;
+                } else {
+                    event.preventDefault();
+                    alert('El numero de documento debe contener una letra');
+                    document.getElementById('document_owner').focus();
+                }
+            } else if (typeDocument == 2) {
+                if ((/[A-Z]/.test(documentOwner.charAt(0)))) {
+                    event.preventDefault();
+                    alert('El numero de documento debe contener numeros');
+                    document.getElementById('document_owner').focus();
+                } else {
+                    return true;
+                }
+            } else if (typeDocument == 1) {
+                if ((/[A-Z]/.test(documentOwner.charAt(0)))) {
+                    event.preventDefault();
+                    alert('El numero de documento debe contener numeros');
+                    document.getElementById('document_owner').focus();
+                } else {
+                    return true;
+                }
+            }
+        });
+    }
+
     $(document).ready(function() {
         inhabilitar();
+        typeDocumentGet();
+        validate();
     });
 </script>

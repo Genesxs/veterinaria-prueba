@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-10">
-        <div class="row">
+        <div class="row p-4">
             <div class="col-12">
                 @if (session()->has('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">{{ session('success') }}
@@ -64,12 +64,12 @@
                                                                 class='btn rounded-end me-2 text-primary'>
                                                                 Editar
                                                             </a>
+                                                            <?php
+                                                                $diffHour = intval($meet->meet_time->format('H:i:s')) - intval($date->format('H:i:s'));
+                                                            ?>
 
-                                                            {{-- La fecha actual no puede ser mayor o igual a meet_date y la hora actual no puede ser mayor o igual a meet_time --}}
-                                                            @if ($date->format('Y-m-d') >= $meet->meet_date->format('Y-m-d') && strtotime($date->format('h:m:s')) >= strtotime($meet->meet_time->format('h:m:s')))
-                                                                <button
-                                                                    class="btn text-black-50 shadow-none" data-toggle="tooltip" data-placement="top" title="No puede ser cancelada la cita">Cancelar</button>
-                                                            @else
+                                                            {{-- Si la fecha de la cita es igual a la actual y la diferencia de horas es mayor a 2 se puede editar --}}
+                                                            @if ($meet->meet_date->format('Y-m-d') == $date->format('Y-m-d') && $diffHour > 2)
                                                                 <form method="POST"
                                                                     action="{{ route('meet.destroy', [$meet->id]) }}">
                                                                     @method('DELETE')
@@ -77,6 +77,18 @@
                                                                     <button class="btn text-danger" type="submit"
                                                                         onclick="return confirm('¿Desea cancelar la cita?')">Cancelar</button>
                                                                 </form>
+                                                            @elseif($meet->meet_date->format('Y-m-d') > $date->format('Y-m-d'))
+                                                                <form method="POST"
+                                                                    action="{{ route('meet.destroy', [$meet->id]) }}">
+                                                                    @method('DELETE')
+                                                                    @csrf
+                                                                    <button class="btn text-danger" type="submit"
+                                                                        onclick="return confirm('¿Desea cancelar la cita?')">Cancelar</button>
+                                                                </form>
+                                                            @else
+                                                                <button class="btn text-black-50 shadow-none"
+                                                                    data-toggle="tooltip" data-placement="top"
+                                                                    title="No puede ser cancelada la cita">Cancelar</button>
                                                             @endif
                                                         </div>
                                                     </td>
